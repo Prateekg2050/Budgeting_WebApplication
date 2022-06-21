@@ -1,17 +1,13 @@
 import axios from "axios";
 import { server_url } from "../config";
 
-export const signUp = (user) => {
+export const signUp = (user, navigate) => {
   return (dispatch) => {
     axios
       .post(`${server_url}/user/register`, user)
-      .then((token) => {
-        localStorage.setItem("token", JSON.stringify(token.data));
-
-        dispatch({
-          type: "SIGN_UP",
-          token: token.data,
-        });
+      .then(() => {
+        console.log("registerd succesfully");
+        navigate("/login");
       })
 
       .catch((error) => {
@@ -20,16 +16,16 @@ export const signUp = (user) => {
   };
 };
 
-export const signIn = (email, password) => {
+export const signIn = (email, password, navigate) => {
   return (dispatch) => {
     axios
       .post(`${server_url}/user/login`, { email, password })
       .then(async (token) => {
-        localStorage.setItem("token", JSON.stringify(token.data));
-        console.log(token);
+        localStorage.setItem("token", JSON.stringify(token.data.token));
+        console.log(token.data);
         dispatch({
           type: "SIGN_IN",
-          token: token.data,
+          token: token.data.token,
         });
       })
       .catch((error) => {
@@ -54,7 +50,7 @@ export const loadUser = () => {
               user: {
                 token,
 
-                ...res.data.data,
+                ...res.data,
                 loaded: true,
               },
             });

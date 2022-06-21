@@ -16,7 +16,12 @@ const Home = () => {
               goals faster.
             </h1>
             <div className=" flex flex-row justify-evenly items-center ">
-              <button className=" bg-blue-400 p-5 rounded-lg text-white font-sans shadow-md hover:opacity-90">
+              <button
+                onClick={() => {
+                  navigate("/register");
+                }}
+                className=" bg-blue-400 p-5 rounded-lg text-white font-sans shadow-md hover:opacity-90"
+              >
                 Sign up for free
               </button>
               <h1 className=" text-gray-400">or</h1>

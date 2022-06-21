@@ -43,10 +43,11 @@ router.post("/login", async (req, res) => {
         email: user.email,
         name: user.name,
         admin: user.admin,
+        _id: user._id,
       },
       process.env.JWT_SECRET
     );
-    res.status(200).json({ accessToken: token });
+    res.status(200).json({ token: token });
   } else {
     res.status(404).send("Wrong email or password");
   }

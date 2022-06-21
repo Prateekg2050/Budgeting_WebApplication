@@ -1,7 +1,6 @@
 const initialState = {
   token: JSON.parse(localStorage.getItem("token")),
   email: null,
-  phoneNumber: null,
   _id: null,
   loaded: false,
 };
@@ -11,10 +10,10 @@ const authReducer = (state = initialState, action) => {
     case "SIGN_IN":
     case "SIGN_UP":
       // const user = jwtDecode(action.token);
-      const { user } = action.token.data;
+      const { user } = action.token;
       return {
         ...user,
-        token: action.token.token,
+        token: action.token,
       };
     case "SIGN_OUT":
       localStorage.removeItem("token");
@@ -23,7 +22,6 @@ const authReducer = (state = initialState, action) => {
         loaded: true,
         token: null,
         email: null,
-        phoneNumber: null,
         _id: null,
       };
     case "USER_UPDATED":
