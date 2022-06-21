@@ -1,9 +1,10 @@
 import axios from "axios";
+import { server_url } from "../config";
 
 export const signUp = (user) => {
   return (dispatch) => {
     axios
-      .post(`/user/register`, user)
+      .post(`${server_url}/user/register`, user)
       .then((token) => {
         localStorage.setItem("token", JSON.stringify(token.data));
 
@@ -22,7 +23,7 @@ export const signUp = (user) => {
 export const signIn = (email, password) => {
   return (dispatch) => {
     axios
-      .post(`/user/login`, { email, password })
+      .post(`${server_url}/user/login`, { email, password })
       .then(async (token) => {
         localStorage.setItem("token", JSON.stringify(token.data));
         console.log(token);
@@ -40,10 +41,10 @@ export const signIn = (email, password) => {
 export const loadUser = () => {
   return (dispatch, getState) => {
     const token = getState().auth.token?.token || getState().auth.token;
-
+    console.log(token);
     if (token) {
       axios
-        .get(`/user/me`, {
+        .get(`${server_url}/user/me`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
