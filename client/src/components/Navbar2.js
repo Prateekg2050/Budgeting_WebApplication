@@ -1,9 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import { signOut } from "../actions/authAction";
+import { useDispatch } from "react-redux";
 
 function Navbar2(item) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <div>
       <div
@@ -11,26 +14,22 @@ function Navbar2(item) {
         className=" flex flex-row justify-between px-5 py-5 fixed top-0 right-0 left-0 h-16  z-30 bg-gray-100 shadow-lg "
       >
         <div className="flex self-center items-center space-x-8">
-          <Icon
-            onClick={() => {
-              navigate(-1);
-            }}
-            icon="eva:arrow-ios-back-fill"
-            width="35"
-            height="35"
-          />
-          <div id="brnd" className=" cursor-pointer hidden lg:flex">
-            <img
-              src={window.location.origin + "/assets/AoRentt.png"}
-              className=""
-              alt=""
-            />
+          <div id="brnd" className=" font-extrabold ">
+            Money Finance
           </div>
         </div>
-        <div className="flex self-center w-full justify-end md:justify-center ">
-          <h1 className=" text-2xl md:text-3xl font-extrabold lg:hidden ">
-            {item.name}
-          </h1>
+        <div className="flex self-end  justify-end md:justify-center space-x-6 ">
+          <Link to={"/dashboard/addEarning"}>Add Earning</Link>
+          <Link to={"/profile"}>
+            <div>Profile</div>
+          </Link>
+          <div
+            onClick={() => {
+              dispatch(signOut());
+            }}
+          >
+            Sign out
+          </div>
         </div>
       </div>
       <div className=" h-16 bg-white"></div>
