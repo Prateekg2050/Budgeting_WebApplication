@@ -27,7 +27,7 @@ function Dashboard() {
                   : "w-full rounded-md bg-white  p-3 text-gray-400 "
               }`}
             >
-              Monthly
+              Expense
             </div>
 
             <div
@@ -40,7 +40,7 @@ function Dashboard() {
                   : "w-full rounded-md bg-white   p-3 text-gray-400"
               }`}
             >
-              Yearly
+              Analysis
             </div>
           </div>
 

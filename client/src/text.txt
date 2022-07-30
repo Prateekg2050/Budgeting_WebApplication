@@ -1,0 +1,838 @@
+---
+title: "EDA LA2"
+author: "Nilesh Verma & Srajan Gupta"
+date: '2022-07-03'
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r}
+data <- read.csv(file.choose())
+library(ggplot2)
+```
+
+```{r}
+data
+```
+
+```{r}
+plot(data$HP,data$Attack)
+```
+
+```{r}
+ggplot(data, aes(x = HP, y = Attack)) +
+ geom_point()
+```
+
+```{r}
+plot(data$HP,data$Attack,type = "l")
+```
+
+```{r}
+ggplot(data, aes(x = HP, y = Attack)) +
+ geom_line()
+```
+
+```{r}
+ggplot(data, aes(x =Entity, y = Attack)) +
+ geom_point()
+```
+```{r}
+ggplot(data, aes(x = HP, y = Attack)) +
+ geom_line() +
+ geom_point()
+```
+
+```{r}
+barplot(data$Attack)
+```
+
+```{r}
+ggplot(data, aes(x = HP, y = Attack)) +
+ geom_col()
+```
+```{r}
+ggplot(data, aes(x =Entity)) +
+ geom_bar()
+```
+```{r}
+hist(data$Attack, breaks = 10)
+```
+```{r}
+ggplot(data, aes(x = Attack)) +
+ geom_histogram()
+```
+```{r}
+ggplot(data, aes(x = Attack)) +
+ geom_histogram(binwidth=10)
+```
+
+```{r}
+ggplot(data, aes(x = HP, y = Attack)) +geom_boxplot()
+```
+```{r}
+curve(x^3 - 5*x, from = -4, to = 4)
+```
+
+```{r}
+# Plot a user-defined function
+myfun <- function(xvar) {
+ 1 / (1 + exp(-xvar + 10))
+}
+curve(myfun(x), from = 0, to = 20)
+# Add a line:
+curve(1 - myfun(x), add = TRUE, col = "red")
+```
+```{r}
+str(data)
+```
+
+```{r}
+ggplot(data, aes(x = Entity, y = HP)) +
+ geom_col(fill = "lightblue", colour = "black")
+```
+
+```{r}
+library(gcookbook)
+ggplot(cabbage_exp, aes(x = Date, y = Weight, fill = Cultivar)) +
+ geom_col(position = "dodge", colour = "black") +
+ scale_fill_brewer(palette = "Pastel1")
+```
+```{r}
+ce <- cabbage_exp[1:5, ]
+ggplot(ce, aes(x = Date, y = Weight, fill = Cultivar)) +
+ geom_col(position = "dodge", colour = "black") +
+ scale_fill_brewer(palette = "Pastel1")
+```
+
+```{r}
+ggplot(diamonds, aes(x = cut)) +
+ geom_bar()
+```
+```{r}
+library(dplyr)
+upc <- uspopchange %>%
+ arrange(desc(Change)) %>%
+ slice(1:10)
+```
+
+```{r}
+ggplot(upc, aes(x = Abb, y = Change, fill = Region)) +
+ geom_col()
+```
+```{r}
+ggplot(upc, aes(x = reorder(Abb, Change), y = Change, fill = Region)) +
+ geom_col(colour = "black") +
+ scale_fill_manual(values = c("#669933", "#FFCC66")) +
+ xlab("State")
+```
+
+
+
+```{r}
+climate_sub <- climate %>%
+ filter(Source == "Berkeley" & HP >= 1900) %>%
+ mutate(pos = Anomaly10y >= 0)
+climate_sub
+```
+```{r}
+ggplot(climate_sub, aes(x = HP, y = Anomaly10y, fill = pos)) +
+ geom_col(position = "identity")
+```
+```{r}
+ggplot(climate_sub, aes(x = HP, y = Anomaly10y, fill = pos)) +
+ geom_col(position = "identity", colour = "black", size = 0.25) +
+ scale_fill_manual(values = c("#CCEEFF", "#FFDDDD"), guide = FALSE)
+
+```
+
+```{r}
+ggplot(data, aes(x = Entity, y = HP )) +
+ geom_col()
+```
+```{r}
+ggplot(data, aes(x = data$HP, y = data$Entity)) +
+ geom_col(width = 0.5)
+```
+```{r}
+ggplot(pg_mean, aes(x = group, y = weight)) +
+ geom_col(width = 1)
+```
+```{r}
+ggplot(cabbage_exp, aes(x = Date, y = Weight, fill = Cultivar)) +
+ geom_col(width = 0.5, position = "dodge")
+```
+
+```{r}
+ggplot(data, aes(x = HP, y = Attack)) +
+ geom_col(width = 0.5, position = position_dodge(0.7))
+```
+
+```{r}
+geom_bar(position = "dodge")
+geom_bar(width = 0.9, position = position_dodge())
+geom_bar(position = position_dodge(0.9))
+```
+
+
+```{r}
+geom_bar(width = 0.9, position = position_dodge(width=0.9))
+```
+```{r}
+ggplot(cabbage_exp, aes(x = Date, y = Weight, fill = Cultivar)) +
+ geom_col()
+```
+```{r}
+ggplot(cabbage_exp, aes(x = Date, y = Weight, fill = Cultivar)) +
+ geom_col(position = position_stack(reverse = TRUE)) +
+ guides(fill = guide_legend(reverse = TRUE))
+```
+```{r}
+ggplot(cabbage_exp, aes(x = Date, y = Weight, fill = Cultivar)) +
+ geom_col(colour = "black") +
+ scale_fill_brewer(palette = "Pastel1")
+
+```
+```{r}
+ggplot(cabbage_exp, aes(x = Date, y = Weight, fill = Cultivar)) +
+ geom_col(position = "fill") +
+ scale_y_continuous(labels = scales::percent)
+```
+```{r}
+ggplot(cabbage_exp, aes(x = Date, y = Weight, fill = Cultivar)) +
+ geom_col(colour = "black", position = "fill") +
+ scale_y_continuous(labels = scales::percent) +
+ scale_fill_brewer(palette = "Pastel1")
+```
+```{r}
+ce <- cabbage_exp %>%
+ group_by(Date) %>%
+ mutate(percent_weight = Weight / sum(Weight) * 100)
+ce
+```
+```{r}
+ggplot(ce, aes(x = Date, y = percent_weight, fill = Cultivar)) +
+ geom_col()
+```
+
+```{r}
+ggplot(cabbage_exp, aes(x = interaction(Date, Cultivar), y = Weight)) +
+ geom_col() +
+ geom_text(aes(label = Weight), vjust = 1.5, colour = "white")
+```
+```{r}
+ggplot(mtcars, aes(x = factor(cyl))) +
+ geom_bar() +
+ geom_text(aes(label = ..count..), stat = "count", vjust = 1.5,
+ colour = "white")
+```
+```{r}
+ggplot(cabbage_exp, aes(x = interaction(Date, Cultivar), y = Weight)) +
+ geom_col() +
+ geom_text(aes(label = Weight), vjust = -0.2) +
+ ylim(0, max(cabbage_exp$Weight) * 1.05)
+```
+```{r}
+ggplot(cabbage_exp, aes(x = interaction(Date, Cultivar), y = Weight)) +
+ geom_col() +
+ geom_text(aes(y = Weight + 0.1, label = Weight))
+```
+```{r}
+ggplot(cabbage_exp, aes(x = Date, y = Weight, fill = Cultivar)) +
+ geom_col(position = "dodge") +
+ geom_text(
+ aes(label = Weight),
+ colour = "white", size = 3,
+ vjust = 1.5, position = position_dodge(.9)
+ )
+```
+
+```{r}
+tophit <- tophitters2001[1:25, ]
+ggplot(tophit, aes(x = avg, y = name)) +
+ geom_point()
+```
+```{r}
+tophit[, c("name", "lg", "avg")]
+```
+```{r}
+ggplot(tophit, aes(x = avg, y = reorder(name, avg))) +
+ geom_point(size = 3) + # Use a larger dot
+ theme_bw() +
+ theme(
+ panel.grid.major.x = element_blank(),
+ panel.grid.minor.x = element_blank(),
+ panel.grid.major.y = element_line(colour = "grey60", linetype = "dashed")
+ )
+```
+
+```{r}
+ggplot(tophit, aes(x = reorder(name, avg), y = avg)) +
+ geom_point(size = 3) + # Use a larger dot
+ theme_bw() +
+ theme(
+ panel.grid.major.y = element_blank(),
+ panel.grid.minor.y = element_blank(),
+ panel.grid.major.x = element_line(colour = "grey60", linetype = "dashed"),
+ axis.text.x = element_text(angle = 60, hjust = 1)
+ )
+```
+```{r}
+nameorder <- tophit$name[order(tophit$lg, tophit$avg)]
+# Turn name into a factor, with levels in the order of nameorder
+tophit$name <- factor(tophit$name, levels = nameorder)
+ggplot(tophit, aes(x = avg, y = name)) +
+ geom_segment(aes(yend = name), xend = 0, colour = "grey50") +
+ geom_point(size = 3, aes(colour = lg)) +
+ scale_colour_brewer(palette = "Set1", limits = c("NL", "AL")) +
+ theme_bw() +
+ theme(
+ panel.grid.major.y = element_blank(), # No horizontal grid lines
+ legend.position = c(1, 0.55), # Put legend inside plot area
+ legend.justification = c(1, 0.5)
+ )
+```
+
+```{r}
+ggplot(BOD, aes(x = Time, y = demand)) +
+ geom_line()
+```
+```{r}
+BOD1 <- BOD # Make a copy of the data
+BOD1$Time <- factor(BOD1$Time)
+ggplot(BOD1, aes(x = Time, y = demand, group = 1)) +
+ geom_line()
+```
+```{r}
+ggplot(BOD, aes(x = Time, y = demand)) +
+ geom_line() +
+ geom_point()
+```
+```{r}
+ggplot(worldpop, aes(x = HP, y = Population)) +
+ geom_line() +
+ geom_point()
+# Same with a log y-axis
+ggplot(worldpop, aes(x = HP, y = Population)) +
+ geom_line() +
+ geom_point() +
+ scale_y_log10()
+```
+```{r}
+ggplot(tg, aes(x = dose, y = length, colour = supp)) +
+ geom_line()
+# Map supp to linetype
+ggplot(tg, aes(x = dose, y = length, linetype = supp)) +
+ geom_line()
+```
+```{r}
+ggplot(tg, aes(x = factor(dose), y = length, colour = supp)) + geom_line()
+```
+```{r}
+ggplot(tg, aes(x = dose, y = length)) +
+ geom_line()
+```
+```{r}
+ggplot(tg, aes(x = dose, y = length, shape = supp)) +
+ geom_line() +
+ geom_point(size = 4) # Make the points a little larger
+ggplot(tg, aes(x = dose, y = length, fill = supp)) +
+ geom_line() +
+ geom_point(size = 4, shape = 21)
+```
+```{r}
+ggplot(BOD, aes(x = Time, y = demand)) +
+ geom_line(linetype = "dashed", size = 1, colour = "blue")
+```
+
+```{r}
+ggplot(tg, aes(x = dose, y = length, colour = supp)) +
+ geom_line() +
+ scale_colour_brewer(palette = "Set1")
+```
+```{r}
+ggplot(tg, aes(x = dose, y = length, group = supp)) +
+ geom_line(colour = "darkgreen", size = 1.5)
+# Since supp is mapped to colour, it will automatically be used for grouping
+ggplot(tg, aes(x = dose, y = length, colour = supp)) +
+ geom_line(linetype = "dashed") +
+ geom_point(shape = 22, size = 3, fill = "white")
+```
+```{r}
+ggplot(BOD, aes(x = Time, y = demand)) +
+ geom_line() +
+ geom_point(size = 4, shape = 22, colour = "darkred", fill = "pink")
+```
+
+```{r}
+ggplot(BOD, aes(x = Time, y = demand)) +
+ geom_line() +
+ geom_point(size = 4, shape = 21, fill = "white")
+```
+
+```{r}
+pd <- position_dodge(0.2)
+ggplot(tg, aes(x = dose, y = length, fill = supp)) +
+ geom_line(position = pd) +
+ geom_point(shape = 21, size = 3, position = pd) +
+ scale_fill_manual(values = c("black","white"))
+```
+
+```{r}
+sunspotHP <- data.frame(
+ HP = as.numeric(time(sunspot.HP)),
+ Sunspots = as.numeric(sunspot.HP)
+ )
+ggplot(sunspotHP, aes(x = HP, y = Sunspots)) +
+ geom_area()
+```
+```{r}
+ggplot(sunspotHP, aes(x = HP, y = Sunspots)) +
+ geom_area(colour = "black", fill = "blue", alpha = .2)
+```
+```{r}
+ggplot(uspopage, aes(x = HP, y = Thousands, fill = AgeGroup)) +
+ geom_area()
+```
+```{r}
+uspopage
+```
+```{r}
+ggplot(uspopage, aes(x = HP, y = Thousands, fill = AgeGroup)) +
+ geom_area(colour = "black", size = .2, alpha = .4) +
+ scale_fill_brewer(palette = "Blues")
+```
+
+```{r}
+ggplot(uspopage, aes(x = HP, y = Thousands, fill = AgeGroup)) +
+ geom_area(position = "fill", colour = "black", size = .2, alpha = .4) +
+ scale_fill_brewer(palette = "Blues") +
+ scale_y_continuous(labels = scales::percent)
+
+```
+
+```{r}
+climate_mod <- climate %>%
+ filter(Source == "Berkeley") %>%
+ select(HP, Anomaly10y, Unc10y)
+climate_mod
+```
+```{r}
+ggplot(climate_mod, aes(x = HP, y = Anomaly10y)) +
+geom_ribbon(aes(ymin = Anomaly10y - Unc10y,
+ ymax = Anomaly10y + Unc10y),
+ alpha = 0.2) +
+geom_line()
+```
+
+```{r}
+ggplot(climate_mod, aes(x = HP, y = Anomaly10y)) +
+ geom_line(aes(y = Anomaly10y - Unc10y), colour = "grey50",
+ linetype = "dotted") +
+ geom_line(aes(y = Anomaly10y + Unc10y), colour = "grey50",
+ linetype = "dotted") +
+ geom_line()
+```
+```{r}
+data%>%
+select(Entity,HP )
+```
+```{r}
+ggplot(data, aes(x = HP, y = Entity)) +
+ geom_point()
+```
+
+```{r}
+ggplot(data, aes(x = Entity, y = HP)) +
+ geom_point()
+```
+
+```{r}
+ggplot(data, aes(x = HP, y = Attack)) +
+ geom_point()
+```
+```{r}
+ggplot(data, aes(x = Entity, y = Attack)) +
+ geom_point()
+```
+```{r}
+ggplot(data, aes(x = HP, y = Attack)) +
+ geom_point(shape = 21)
+```
+```{r}
+ggplot(heightweight, aes(x = ageHP, y = heightIn)) +
+ geom_point(size = 1.5)
+```
+
+```{r}
+ggplot(data, aes(x = HP, y = Attack)) +
+ geom_point(size = 2.5)
+```
+```{r}
+heightweight %>%
+ select(sex, ageHP, heightIn)
+```
+
+```{r}
+ggplot(heightweight, aes(x = ageHP, y = heightIn, shape = sex, colour = sex)) +
+ geom_point()
+```
+```{r}
+ggplot(heightweight, aes(x = ageHP, y = heightIn, shape = sex, colour = sex)) +
+ geom_point() +
+ scale_shape_manual(values = c(1,2)) +
+ scale_colour_brewer(palette = "Set1")
+```
+
+```{r}
+ggplot(data, aes(x = Entity, y = Attack)) +
+ geom_point(shape = 3)
+```
+```{r}
+ggplot(data, aes(x = HP, y = Attack)) +
+ geom_point(shape = 3)
+```
+```{r}
+ggplot(heightweight, aes(x = ageHP, y = heightIn, shape = sex)) +
+ geom_point(size = 3) +
+ scale_shape_manual(values = c(1, 4))
+```
+```{r}
+hw <- heightweight %>%
+ mutate(weightgroup = ifelse(weightLb < 100, "< 100", ">= 100"))
+```
+
+```{r}
+ggplot(hw, aes(x = ageHP, y = heightIn, shape = sex, fill = weightgroup)) +
+ geom_point(size = 2.5) +
+ scale_shape_manual(values = c(21, 24)) +
+ scale_fill_manual(
+ values = c(NA, "black"),
+ guide = guide_legend(override.aes = list(shape = 21))
+ )
+```
+```{r}
+heightweight %>%
+ select(sex, ageHP, heightIn, weightLb)
+```
+```{r}
+ggplot(heightweight, aes(x = ageHP, y = heightIn, colour = weightLb)) +
+ geom_point()
+```
+```{r}
+ggplot(heightweight, aes(x = ageHP, y = heightIn, size = weightLb)) +
+ geom_point()
+```
+```{r}
+range(data$HP)
+```
+```{r}
+size_range <- range(data$HP) / max(data$HP) * 6
+```
+```{r}
+size_range
+```
+
+```{r}
+ggplot(data, aes(x = Entity, y = Attack, size = HP)) +
+ geom_point() +
+ scale_size_continuous(range = size_range)
+```
+```{r}
+ggplot(data, aes(x = Entity, y = Attack, size = HP)) +
+ geom_point() +
+  scale_size_area()
+```
+
+```{r}
+ggplot(data, aes(x = HP, y = Attack, fill = HP)) +
+ geom_point(shape = 21, size = 2.5) +
+ scale_fill_gradient(low = "black", high = "white")
+```
+```{r}
+ggplot(data, aes(x = HP, y = Attack, fill = HP)) +
+ geom_point(shape = 21, size = 2.5) +
+ scale_fill_gradient(
+ low = "black", high = "white",
+ breaks = seq(70, 170, by = 20),
+ guide = guide_legend()
+ )
+```
+```{r}
+diamonds_sp <- ggplot(data, aes(x = HP, y = Attack))
+diamonds_sp +
+ geom_point()
+```
+```{r}
+diamonds_sp +
+ geom_point(alpha = .1)
+```
+```{r}
+diamonds_sp +
+ geom_point(alpha = .01)
+```
+```{r}
+diamonds_sp +
+ stat_bin2d()
+```
+
+```{r}
+diamonds_sp +
+ stat_bin2d(bins = 50) +
+ scale_fill_gradient(low = "lightblue", high = "red", limits = c(0, 6000))
+```
+```{r}
+cw_sp <- ggplot(ChickWeight, aes(x = Time, y = weight))
+cw_sp +
+ geom_point()
+cw_sp +
+ geom_point(position = "jitter") 
+cw_sp +
+ geom_point(position = position_jitter(width = .5, height = 0))
+```
+```{r}
+cw_sp +
+ geom_boxplot(aes(group = Time))
+```
+```{r}
+cw_sp +
+ geom_boxplot() 
+```
+```{r}
+diamonds_sp +
+ geom_point() +
+ stat_smooth(method = lm)
+```
+```{r}
+diamonds_sp +
+ geom_point() +
+ stat_smooth(method = lm, level = 0.99)
+```
+```{r}
+diamonds_sp +
+ geom_point() +
+ stat_smooth(method = lm, se = FALSE)
+```
+```{r}
+diamonds_sp +
+ geom_point(colour = "grey60") +
+ stat_smooth(method = lm, se = FALSE, colour = "black")
+```
+
+```{r}
+diamonds_sp +
+ geom_point(colour = "grey60") +
+ stat_smooth()
+```
+```{r}
+diamonds_sp + geom_point(colour = "grey60") +
+ stat_smooth(method = loess)
+```
+```{r}
+library(MASS)
+```
+```{r}
+biopsy_mod <- biopsy %>%
+ mutate(classn = recode(class, benign = 0, malignant = 1))
+biopsy_mod
+```
+```{r}
+ggplot(biopsy_mod, aes(x = V1, y = classn)) +
+ geom_point(
+ position = position_jitter(width = 0.3, height = 0.06),
+ alpha = 0.4,
+ shape = 21,
+ size = 1.5
+ ) +
+ stat_smooth(method = glm, method.args = list(family = binomial))
+```
+```{r}
+hw_sp <- ggplot(heightweight, aes(x = ageHP, y = heightIn, colour = sex)) +
+ geom_point() +
+ scale_colour_brewer(palette = "Set1")
+hw_sp +
+ geom_smooth()
+```
+```{r}
+hw_sp +
+ geom_smooth(method = lm, se = FALSE, fullrange = TRUE)
+```
+```{r}
+ggplot(data, aes(x = HP, y = Attack, colour = HP)) +
+ geom_point() +
+ geom_line(data = data)
+```
+```{r}
+ggplot(data, aes(x = HP, y = Attack)) +
+ geom_point() +
+ geom_rug()
+```
+```{r}
+countries_sub <- countries %>%
+ filter(HP == 2009 & healthexp > 2000)
+countries_sp <- ggplot(countries_sub, aes(x = healthexp, y = infmortality)) +
+ geom_point()
+countries_sp +
+ annotate("text", x = 4350, y = 5.4, label = "Canada") +
+ annotate("text", x = 7400, y = 6.8, label = "USA")
+```
+
+```{r}
+countries_sp +
+ geom_text(aes(label = Name), size = 4)
+```
+
+```{r}
+ggplot(data, aes(x = HP)) +
+ geom_histogram()
+```
+```{r}
+ggplot(data, aes(x = Attack)) +
+ geom_histogram()
+```
+```{r}
+w <- data$HP
+ggplot(NULL, aes(x = w)) +
+ geom_histogram()
+```
+```{r}
+ggplot(data, aes(x = Attack)) +
+ geom_histogram(binwidth = 5, fill = "white", colour = "black")
+```
+
+```{r}
+binsize <- diff(range(data$HP))/15
+ggplot(data, aes(x = Attack)) +
+ geom_histogram(binwidth = binsize, fill = "white", colour = "black")
+```
+
+```{r}
+ggplot(data, aes(x = HP)) + geom_histogram(fill = "white", colour = "black") +
+ facet_grid(Entity ~ .)
+```
+```{r}
+ggplot(data, aes(x = HP, fill = Entity)) +
+ geom_histogram(position = "identity", alpha = 0.4)
+```
+
+```{r}
+ggplot(data, aes(x = HP)) +
+ geom_density()
+```
+```{r}
+ggplot(data, aes(x = Entity)) +
+ geom_line(stat = "density") +
+ expand_limits(y = 0)
+```
+```{r}
+w <- data$Attack
+ggplot(NULL, aes(x = w)) +
+ geom_density()
+```
+```{r}
+ggplot(data, aes(x = Attack)) +
+ geom_line(stat = "density") +
+ geom_line(stat = "density", adjust = .25, colour = "red") +
+ geom_line(stat = "density", adjust = 2, colour = "blue")
+```
+```{r}
+ggplot(data, aes(x = Attack)) +
+ geom_density(fill = "blue", alpha = .2, colour = NA) +
+ xlim(35, 105) +
+ geom_line(stat = "density")
+```
+```{r}
+ggplot(data, aes(x = Attack)) +
+ geom_density(fill = "blue", alpha = .2) +
+ xlim(35, 105)
+```
+```{r}
+ggplot(data, aes(x = Attack, y = ..density..)) +
+ geom_histogram(fill = "cornsilk", colour = "grey60", size = .2) +
+ geom_density() +
+ xlim(35, 105)
+```
+```{r}
+ggplot(data, aes(x=HP)) +
+ geom_freqpoly()
+```
+```{r}
+ggplot(data, aes(x = Attack)) +
+ geom_freqpoly(binwidth = 4)
+```
+```{r}
+ggplot(birthwt, aes(x = factor(race), y = bwt)) +
+ geom_boxplot()
+```
+```{r}
+ggplot(birthwt, aes(x = factor(race), y = bwt)) +
+ geom_boxplot(width = .5)
+```
+
+```{r}
+ggplot(birthwt, aes(x = 1, y = bwt)) +
+ geom_boxplot() +
+ scale_x_continuous(breaks = NULL) +
+ theme(axis.title.x = element_blank())
+```
+```{r}
+hw_p <- ggplot(heightweight, aes(x = sex, y = heightIn))
+hw_p +
+ geom_violin()
+```
+
+```{r}
+hw_p +
+ geom_violin() +
+ geom_boxplot(width = .1, fill = "black", outlier.colour = NA) +
+ stat_summary(fun.y = median, geom = "point", fill = "white", shape = 21,
+ size = 2.5)
+```
+```{r}
+hw_p +
+ geom_violin(trim = FALSE)
+```
+```{r}
+hw_p +
+ geom_violin(adjust = 2)
+```
+```{r}
+hw_p +
+ geom_violin(adjust = .5)
+```
+```{r}
+c2009 <- countries %>%
+ filter(HP == 2009 & healthexp > 2000)
+c2009_p <- ggplot(c2009, aes(x = infmortality))
+c2009_p +
+ geom_dotplot()
+```
+```{r}
+ggplot(data, aes(x = HP, y = Attack)) +
+ geom_dotplot(binaxis = "y", binwidth = .5, stackdir = "center")
+```
+```{r}
+ggplot(data, aes(x = HP, y = Attack)) +
+ geom_boxplot(outlier.colour = NA, width = .4) +
+ geom_dotplot(binaxis = "y", binwidth = .5, stackdir = "center", fill = NA)
+```
+```{r}
+faithful_p <- ggplot(data, aes(x = HP, y = Attack))
+faithful_p +
+ geom_point() +
+ stat_density2d()
+```
+```{r}
+faithful_p +
+ stat_density2d(aes(colour = ..level..))
+```
+```{r}
+faithful_p +
+ stat_density2d(aes(fill = ..density..), geom = "raster", contour = FALSE)
+```
+```{r}
+faithful_p +
+ geom_point() +
+ stat_density2d(aes(alpha = ..density..), geom = "tile", contour = FALSE)
+```
+
