@@ -11,6 +11,7 @@ mongoose.connect(process.env.MONGO_URI);
 const users = require("./routes/user");
 
 app.use("/user", users);
+app.use("/saving", require('./routes/saving'));
 app.use("/posts", require('./routes/expense'));
 app.get("/", (req, res) => {
   res.send("Server is up and running");
