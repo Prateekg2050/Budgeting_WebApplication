@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 function Dashboard() {
   const [duration, setDuration] = useState("monthly");
   return (
-    <div className="bg-blue-100 min-h-100vh">
-      <div className=" h-22">
+    <div className="">
+      <div className="">
         <Navbar2 />
       </div>
 

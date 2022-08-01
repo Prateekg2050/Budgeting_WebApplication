@@ -43,6 +43,7 @@ router.post("/login", async (req, res) => {
         email: user.email,
         name: user.name,
         admin: user.admin,
+        earning: user.earning,
         _id: user._id,
       },
       process.env.JWT_SECRET
@@ -55,14 +56,17 @@ router.post("/login", async (req, res) => {
 
 router.patch("/earning", verifyAuth, async (req, res) => {
   // res.send(req.user._id);
-  await   User.findByIdAndUpdate({_id:req.user._id},{earning:req.body.earning}, function(err, result){
-
-    if(err){
-        res.send(err)
+  await User.findByIdAndUpdate(
+    { _id: req.user._id },
+    { earning: req.body.earning },
+    function (err, result) {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
     }
-    else{
-        res.send(result)
-    }})
+  );
 });
 
 module.exports = router;

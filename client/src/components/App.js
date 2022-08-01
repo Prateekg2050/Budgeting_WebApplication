@@ -10,6 +10,7 @@ import Dashboard from "./Dashboard";
 import AddEarnings from "./AddEarnings";
 import AddExpense from "./AddExpense";
 import Profile from "./Profile";
+import Savings from "./Savings";
 const App = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -28,6 +29,7 @@ const App = () => {
               path="/dashboard/addEarning"
               element={<AddEarnings />}
             />
+            <Route exact path="/dashboard/savings" element={<Savings />} />
             <Route
               exact
               path="/dashboard/addexpense"

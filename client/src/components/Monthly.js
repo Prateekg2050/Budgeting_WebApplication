@@ -49,7 +49,7 @@ function Monthly() {
             );
           }
         ) : (
-          <div className="flex flex-col space-y-10 p-10 bg-white m-16 rounded-lg shadow-lg">
+          <div className="flex flex-col space-y-10 p-10 outline outline-2 outline-blue-200 m-16 rounded-lg shadow-md shadow-blue-300">
             <div className="grid grid-cols-4   p-4   bg-blue-300 text-white text-xl font-bold rounded-lg w-full">
               <div id="desc">description</div>
               <div id="amount">amount</div>
@@ -58,7 +58,7 @@ function Monthly() {
             </div>
             {Data1.map((elem) => {
               return (
-                <div className="bg-blue-100 rounded-lg p-4 text-md flex flex-row justify-between align-baseline">
+                <div className="bg-blue-100 shadow-md rounded-lg p-4 text-md flex flex-row justify-between align-baseline">
                   <div className="grid grid-cols-4 gap-4    w-full">
                     <div id="desc">{elem.title}</div>
                     <div id="amount">{elem.amt}</div>

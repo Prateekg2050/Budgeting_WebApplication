@@ -7,7 +7,7 @@ const User = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     admin: { type: Boolean, default: false },
-    earning: { type: Number, required: false },
+    earning: { type: Number, required: false, default: 0 },
   },
   { collection: "users" }
 );

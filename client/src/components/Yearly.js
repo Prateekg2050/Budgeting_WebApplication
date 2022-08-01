@@ -1,38 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Data } from "./Data.js";
+import Chart from "chart.js/auto";
+import { Bar } from "react-chartjs-2";
+import axios from "axios";
+import { server_url } from "../config.js";
+import { useSelector } from "react-redux";
 function Yearly() {
+  const auth = useSelector((state) => state.auth);
+
+  const [Data1, setData1] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`${server_url}/posts/`, {
+        headers: { Authorization: `Bearer ${auth.token}` },
+      })
+      .then(async (data) => {
+        console.log(data);
+        setData1(data.data);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }, []);
   return (
     <>
-      <div>
-        {Data.length === 0 ? (
-          () => {
-            return (
-              <div>
-                <h1 className="">Not Found</h1>
-              </div>
-            );
-          }
-        ) : (
-          <div className="flex flex-col space-y-10 p-10 bg-white m-16 rounded-lg shadow-lg">
-            <div className="grid grid-cols-4 gap-4  p-4 bg-blue-300 text-white text-xl font-bold rounded-lg w-full">
-              <div id="desc">description</div>
-              <div id="amount">amount</div>
-              <div id="date">date</div>
-              <div id="level">level</div>
-            </div>
-            {Data.map((elem) => {
-              return (
-                <div className="grid grid-cols-4 gap-4  p-4 bg-blue-100 rounded-lg w-full">
-                  <div id="desc">{elem.description}</div>
-                  <div id="amount">{elem.amount}</div>
-                  <div id="date">{elem.date}</div>
-                  <div id="level">{elem.level}</div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
+      {/* <div>
+        <Bar
+          data={{
+            labels: [],
+          }}
+          width={600}
+          height={400}
+        />
+      </div> */}
     </>
   );
 }

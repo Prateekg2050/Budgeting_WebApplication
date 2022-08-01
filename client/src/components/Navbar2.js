@@ -19,7 +19,7 @@ function Navbar2(item) {
           </div>
         </div>
         <div className="flex self-end  justify-end md:justify-center space-x-6 ">
-          <Link to={"/dashboard/addEarning"}>Add Earning</Link>
+          <Link to={"/dashboard/savings"}>Savings</Link>
           <Link to={"/profile"}>
             <div>Profile</div>
           </Link>
